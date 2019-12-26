@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Manager;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
+use App\Http\Requests\RegisterRequest;
 
 class RegisterController extends Controller
 {
@@ -22,7 +23,7 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
+    
     use RegistersUsers;
 
     /**
@@ -41,7 +42,7 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
+    
     /**
      * Get a validator for an incoming registration request.
      *
@@ -57,37 +58,20 @@ class RegisterController extends Controller
         ]);
     }
 
+
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    public function create(RegisterRequest $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $manager = Manager::create($request->except('password', 'password_confirm'));
+        User::create(array_merge($request->except('image_url', 'password', 'password_confirm'), ['manager_id' => $manager->id, 'password' => bcrypt($request->password)]));
+        return response()->json(['message' => 'Register successfull'], 200);
+
     }
 
-    public function register(Request $request) {
-        $this->validate($request, [
-            'first_name' => 'required | max:255',
-            'last_name' => 'required | max:255',
-            'email' => 'required | email | max:255',
-            'password' => 'required | confirmed | min:8',
-        ]);
-
-        \Log::info($request->input('first_name')); 
-        
-        return User::create([
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-            'password_confirmed' => $request->input('password_confirmed')
-        ]);
-    }
+   
 }

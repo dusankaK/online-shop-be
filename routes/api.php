@@ -18,4 +18,8 @@ use Illuminate\Http\Request;
 //});
 
 Route::post('/login', 'Auth\LoginController@authenticate'); 
-Route::post('/register', 'Auth\RegisterController@register'); 
+Route::post('/register', 'Auth\RegisterController@create'); 
+
+Route::resource('/shops', 'ShopsController');
+Route::resource('/managers', 'ManagersController');
+Route::post('/shops/{shopId}/comments', 'CommentsController@store');

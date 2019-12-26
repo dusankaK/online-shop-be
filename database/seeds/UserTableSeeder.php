@@ -17,7 +17,7 @@ class UserTableSeeder extends Seeder
             ['first_name' => 'Dusanka',
              'last_name' => 'Karac', 
              'email' => 'duda@duda.com', 
-             'password' => bcrypt('duda1025')
+             'password' => bcrypt('duda1025'),
             ]);
     }
 }
