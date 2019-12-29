@@ -18,11 +18,6 @@ class CreateManagersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('image_url', 150)->default('https://picsum.photos/200');
-            $table->unsignedBigInteger('shop_id')->nullable()
-                  ->foreign('shop_id')
-                  ->references('id')
-                  ->on('shops')
-                  ->onDelete('cascade');
             $table->string('email')->unique();
             $table->timestamps();
         });

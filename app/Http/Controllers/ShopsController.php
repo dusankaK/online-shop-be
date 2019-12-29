@@ -7,6 +7,7 @@ use App\Http\Requests\ShopRequest;
 use App\Shop;
 use App\Comment;
 use App\User;
+use App\Manager;
 
 class ShopsController extends Controller
 {
@@ -21,7 +22,7 @@ class ShopsController extends Controller
         if($searchTerm) {
             return Shop::search($searchTerm);
         } else {
-            return Shop::all();
+            return Shop::with('manager')->get();
         }
     }
 

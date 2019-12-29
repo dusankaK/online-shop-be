@@ -12,7 +12,7 @@ class Shop extends Model
 
     public function manager() 
     {
-        return $this->belongsTo(Manager::class, 'manager_id');
+        return $this->belongsTo(Manager::class);
     }
 
     public function comments() 
@@ -23,6 +23,7 @@ class Shop extends Model
     public static function search($searchTerm)
     {
         return Shop::where('name','LIKE', "%{$searchTerm}%")
+                        ->with('manager')
                         ->orderBy('name')
                         ->get();
     }

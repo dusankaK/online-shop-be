@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Manager;
+use App\Shop;
 use App\Http\Requests\ManagerRequest;
 
 class ManagersController extends Controller
@@ -15,11 +16,11 @@ class ManagersController extends Controller
      */
     public function index(Request $request)
     {
-        $term = $request->input('term');
+        $term = $request->query('term');
         if($term) {
             return Manager::searchManager($term);
         } else {
-            return Manager::paginate(2);
+            return Manager::with('shop')->get();
         }
     }
 

@@ -11,6 +11,6 @@ $factory->define(Manager::class, function (Faker $faker) {
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => Str::random(7).'@gmail.com',
-        'image_url' => $faker->url,
+        'image_url' => 'https://img.favpng.com/17/7/13/computer-icons-icon-design-user-png-favpng-uXME5zjHwHTJNs2Kzf5LvgFDR.jpg',
     ];
 });
